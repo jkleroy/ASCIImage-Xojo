@@ -58,13 +58,6 @@ End
 #tag EndWindow
 
 #tag WindowCode
-	#tag Event
-		Sub Paint(g As Graphics, areas() As REALbasic.Rect)
-		  
-		End Sub
-	#tag EndEvent
-
-
 #tag EndWindowCode
 
 #tag Events Canvas1

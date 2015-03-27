@@ -10,9 +10,7 @@ Protected Module ASCIImage
 		  // Retrieving all shapes
 		  shape = shapesFromNumbersInStrictASCIIRepresentation(representation)
 		  
-		  'Dim i As Integer
-		  '
-		  'Dim o As Object2D
+		  
 		  
 		  shape.Border = 1
 		  shape.BorderColor = &c0
@@ -22,13 +20,26 @@ Protected Module ASCIImage
 		  
 		  shape.Scale = scale
 		  
-		  'Dim lines() As String
-		  '
-		  'dim x, y As Integer
-		  '
-		  'Dim s As StringShape
-		  
 		  g.DrawObject(shape, deltaX, deltaY)
+		  
+		  //This is a second way of doing it
+		  
+		  'Dim i As Integer
+		  ''
+		  'Dim o As Object2D
+		  '
+		  'For i = 0 to Shape.Count-1
+		  '
+		  'o = Shape.Item(i)
+		  '
+		  'o.Scale = scale
+		  '
+		  'g.DrawObject(o, deltaX, deltaY)
+		  '
+		  'Next
+		  
+		  
+		  
 		  
 		  
 		End Sub
@@ -60,7 +71,7 @@ Protected Module ASCIImage
 		  // collect positions of the different marks in the shape
 		  Dim markPositions As New Dictionary
 		  Dim mark As String
-		  Dim positions As Module1.PointsArray
+		  Dim positions As ASCIImage.PointsArray
 		  Dim x, y, i As Integer
 		  
 		  For i = 0 to countPixels
@@ -124,7 +135,7 @@ Protected Module ASCIImage
 		    Else
 		      
 		      //close current shape
-		      If UBound(currentPoints) > -1 then
+		      If currentPoints <> Nil and UBound(currentPoints) > -1 then
 		        shapes.Append FS
 		        currentPoints = nil
 		        FS = Nil
@@ -147,17 +158,22 @@ Protected Module ASCIImage
 		        f.X2 = Points(1).X
 		        f.Y2 = Points(1).Y
 		        
-		        If f.X = f.X2 then
-		          f.Y = f.Y - 0.5
-		          f.Y2 = f.Y2 + 0.5
-		          
-		        end if
-		        If f.Y = f.Y2 then
-		          f.X = f.X - 0.5
-		          f.X2 = f.X2 + 0.5
-		        end if
+		        'If f.X = f.X2 then
+		        'f.Y = f.Y - 0.5
+		        'f.Y2 = f.Y2 + 0.5
+		        '
+		        'end if
+		        'If f.Y = f.Y2 then
+		        'f.X = f.X - 0.5
+		        'f.X2 = f.X2 + 0.5
+		        'end if
 		        
 		        'f.Border = 0
+		        
+		        // Border is wider for non horizontal/vertical lines
+		        If f.X <> f.X2 and f.Y <> f.Y2 then
+		          f.BorderWidth = sqrt(2) 
+		        end if
 		        
 		        f.Fill = 100
 		        
